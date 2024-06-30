@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<head>
+  <title>Kedi Besleme</title>
+
+  <link rel="stylesheet" type="text/css"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" type="text/css"
+    href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap-extended.min.css">
+  <link rel="stylesheet" type="text/css"
+    href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/fonts/simple-line-icons/style.min.css">
+  <link rel="stylesheet" type="text/css"
+    href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/colors.min.css">
+  <link rel="stylesheet" type="text/css"
+    href="https://pixinvent.com/stack-responsive-bootstrap-4-admin-template/app-assets/css/bootstrap.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat&display=swap" rel="stylesheet">
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+</head>
+
+<body>
+  <div class="container-xl">
+    <div class="card" style="margin-top: 25px">
+      <div class="card-body">
+        <div class="row">
+          <div class="col-xl-3 col-sm-6 col-12">
+            <div class="card">
+              <div class="card-content">
+                <div class="card-body">
+                  <div class="media d-flex">
+                    <div class="align-self-center">
+                      <i class="icon-drop primary font-large-2 float-left"></i>
+                    </div>
+                    <div class="media-body text-right">
+                      <h3>278</h3>
+                      <span>Kez Beslendi</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-sm-6 col-12">
+            <div class="card">
+              <div class="card-content">
+                <div class="card-body">
+                  <div class="media d-flex">
+                    <div class="align-self-center">
+                      <i class="icon-bag warning font-large-2 float-left"></i>
+                    </div>
+                    <div class="media-body text-right">
+                      <h3>15676 gr</h3>
+                      <span>Toplam Mama Verildi</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-sm-6 col-12">
+            <div class="card">
+              <div class="card-content">
+                <div class="card-body">
+                  <div class="media d-flex">
+                    <div class="align-self-center">
+                      <i class="icon-graph success font-large-2 float-left"></i>
+                    </div>
+                    <div class="media-body text-right">
+                      <h3>20 gr</h3>
+                      <span>Tek Bir Beslemede</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xl-3 col-sm-6 col-12">
+            <div class="card">
+              <div class="card-content">
+                <div class="card-body">
+                  <div class="media d-flex">
+                    <div class="align-self-center">
+                      <i class="icon-clock danger font-large-2 float-left"></i>
+                    </div>
+                    <div class="media-body text-right">
+                      <h3>
+                        <%= lastfeed %>
+                      </h3>
+                      <span>Son Besleme</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <form id="date">
+          <div class="form-group">
+            <label for="formControlRange">Saat</label>
+            <input type="range" class="form-control-range" min="0" max="24" id="saat"
+              onInput="$('#rangeval1').html($(this).val())" value="<%= saat %>">
+            <span id="rangeval1">
+              <%= saat %>
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="formControlRange">Dakika</label>
+            <input type="range" class="form-control-range" min="0" max="59" id="dakika"
+              onInput="$('#rangeval2').html($(this).val())" value="<%= dakika %>">
+            <span id="rangeval2">
+              <%= dakika %>
+            </span>
+          </div>
+          <div class="form-group">
+            <label for="formControlRange">Saniye</label>
+            <input type="range" class="form-control-range" min="0" max="59" id="saniye"
+              onInput="$('#rangeval3').html($(this).val())" value="<%= saniye %>">
+            <span id="rangeval3">
+              <%= saniye %>
+            </span>
+          </div>
+          <button class="btn btn-success">Kaydet</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const socket = io();
+      document.getElementById('date').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const saat = document.getElementById('saat').value;
+        const dakika = document.getElementById('dakika').value;
+        const saniye = document.getElementById('saniye').value;
+        console.log(`saat: ${saat}, dakika: ${dakika}, saniye: ${saniye}`);
+        socket.emit('save-interval', { saat, dakika, saniye });
+      })
+    });
+  </script>
+</body>
+
+</html>
